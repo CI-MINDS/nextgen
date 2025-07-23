@@ -34,7 +34,7 @@
         }
 
         .nav-link::after {
-            content: ""; /* Corrected content */
+            content: "";
             display: block;
             width: 0;
             height: 2px;
@@ -157,15 +157,12 @@
         /* Preloader Specific Styles */
         #preloader {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #000000; /* Black background for preloader */
+            inset: 0;
+            background-color: black;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 9999; /* Ensure it's on top of everything */
+            z-index: 9999; /* This is the fix: ensures preloader is on top of everything */
             opacity: 1;
             transition: opacity 0.5s ease-out; /* Smooth fade out */
         }
@@ -175,34 +172,26 @@
             pointer-events: none; /* Make it unclickable when hidden */
         }
 
-        @keyframes slideInFromLine {
-            0% {
-                transform: translateX(calc(-100% - 50px)); /* Start further to the left to ensure it's fully hidden before animating in. Added an extra 50px to account for potential padding or rendering quirks. */
-                opacity: 0; /* Start invisible */
-            }
-            100% {
-                transform: translateX(0); /* End at its natural position */
-                opacity: 1; /* End fully visible */
-            }
+        /* Corrected Preloader Animation Styles */
+        .translate-x-\[-40px\] {
+          transform: translateX(-40px);
         }
-
-        .animate-slide-in {
-            animation: slideInFromLine 1s ease-out forwards; /* 1 second duration, ease-out timing, stays at end state */
-            animation-delay: 0.5s; /* Start animation after 0.5 seconds */
+        .translate-x-0 {
+          transform: translateX(0);
         }
 
     </style>
 </head>
 <body class="bg-[var(--bg)] text-[var(--text)]">
 
-    <div id="preloader" class="flex items-center justify-center min-h-screen">
+    <div id="preloader">
         <div class="flex items-center p-4 sm:p-6 md:p-8 lg:p-10">
             <div class="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight pr-2 sm:pr-3 md:pr-4 flex-shrink-0" style="font-family: 'Inter', sans-serif;">
                 CI Minds
             </div>
             <div class="h-12 sm:h-16 md:h-20 lg:h-24 w-1 bg-white mx-1 sm:mx-2 md:mx-3 flex-shrink-0"></div>
             <div class="overflow-hidden flex-grow">
-                <div class="flex flex-col items-start pl-1 sm:pl-2 md:pl-3 animate-slide-in leading-tight" style="font-family: 'Inter', sans-serif;">
+                <div id="nextgen-text" class="flex flex-col items-start pl-1 sm:pl-2 md:pl-3 opacity-0 translate-x-[-40px] transition-all duration-1000 ease-out leading-tight" style="font-family: 'Inter', sans-serif;">
                     <div class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold">
                         <span class="text-blue-500">Inspiring</span>
                         <span class="text-gray-400">nextGen</span>
@@ -422,12 +411,21 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const preloader = document.getElementById('preloader');
-            // Hide preloader after a delay to allow animation to complete and content to load
+            const nextgenText = document.getElementById('nextgen-text');
+            
+            // Corrected Preloader Logic
             window.addEventListener('load', () => {
+                // Trigger the slide-in animation
+                setTimeout(() => {
+                    nextgenText.classList.remove('opacity-0', 'translate-x-[-40px]');
+                    nextgenText.classList.add('opacity-100', 'translate-x-0');
+                }, 600); // Start animation shortly after load
+
+                // Hide preloader after animation completes
                 setTimeout(() => {
                     preloader.classList.add('hidden');
                     document.body.style.overflow = 'auto'; // Re-enable scrolling
-                }, 1500); // Wait for preloader animation (1s) + a little extra (0.5s)
+                }, 1500); // Wait for animation to finish
             });
 
             // Ensure body scrolling is disabled until preloader hides
