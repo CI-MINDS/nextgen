@@ -366,29 +366,27 @@
                     <p class="mt-4 text-lg text-slate-300">Have a project in mind or just want to explore possibilities? We'd love to hear from you.</p>
                 </div>
                 <div class="mt-12 max-w-xl mx-auto">
-                    
-<form action="https://formsubmit.co/prithvixzzz@gmail.com" method="POST" id="contact-form" class="grid grid-cols-1 gap-y-6">
-    <input type="hidden" name="_captcha" value="false">
-    <div>
-        <label for="name" class="sr-only">Full name</label>
-        <input type="text" name="name" id="name" required placeholder="Full name"
-            class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 bg-[var(--card)] border-[var(--border)] rounded-md focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--text)]">
-    </div>
-    <div>
-        <label for="email" class="sr-only">Email</label>
-        <input id="email" name="email" type="email" required placeholder="Email address"
-            class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 bg-[var(--card)] border-[var(--border)] rounded-md focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--text)]">
-    </div>
-    <div>
-        <label for="message" class="sr-only">Message</label>
-        <textarea id="message" name="message" rows="4" required placeholder="Tell us about your project..."
-            class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 bg-[var(--card)] border-[var(--border)] rounded-md focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--text)]"></textarea>
-    </div>
-    <div>
-        <button type="submit" class="w-full justify-center py-4 px-6 border border-transparent shadow-sm text-lg font-medium rounded-md text-white bg-[var(--primary)] hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary)] ring-offset-[var(--bg)]">Send Message</button>
-    </div>
-</form>
-
+                    <form id="contact-form" class="grid grid-cols-1 gap-y-6">
+                        <div>
+                            <label for="name" class="sr-only">Full name</label>
+                            <input type="text" name="name" id="name" required placeholder="Full name"
+                                class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 bg-[var(--card)] border-[var(--border)] rounded-md focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--text)]">
+                        </div>
+                        <div>
+                            <label for="email" class="sr-only">Email</label>
+                            <input id="email" name="email" type="email" required placeholder="Email address"
+                                class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 bg-[var(--card)] border-[var(--border)] rounded-md focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--text)]">
+                        </div>
+                        <div>
+                            <label for="message" class="sr-only">Message</label>
+                            <textarea id="message" name="message" rows="4" required placeholder="Tell us about your project..."
+                                class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 bg-[var(--card)] border-[var(--border)] rounded-md focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--text)]"></textarea>
+                        </div>
+                        <div>
+                            <button type="submit" class="w-full justify-center py-4 px-6 border border-transparent shadow-sm text-lg font-medium rounded-md text-white bg-[var(--primary)] hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary)] ring-offset-[var(--bg)]">Send Message</button>
+                        </div>
+                        <div id="form-status" class="text-center font-medium"></div>
+                    </form>
                 </div>
             </div>
         </section>
