@@ -180,14 +180,40 @@
           transform: translateX(0);
         }
 
-    </style>
+/* blank animating page who we ar */
+
+
+/* Parallax effect for the "Who We Are" section */
+.parallax-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 150%; /* Make it taller than the section to allow for movement */
+    background-size: cover;
+    background-position: center;
+    /* Use will-change for performance optimization with transforms */
+    will-change: transform;
+    z-index: 0; /* Behind the content */
+}
+
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+  animation: fadeInUp 1s ease-out forwards;
+}
+
+</style>
 </head>
 <body class="bg-[var(--bg)] text-[var(--text)]">
 
     <div id="preloader">
         <div class="flex items-center p-4 sm:p-6 md:p-8 lg:p-10">
             <div class="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight pr-2 sm:pr-3 md:pr-4 flex-shrink-0" style="font-family: 'Inter', sans-serif;">
-                CI Minds 
+                CI Minds
             </div>
             <div class="h-12 sm:h-16 md:h-20 lg:h-24 w-1 bg-white mx-1 sm:mx-2 md:mx-3 flex-shrink-0"></div>
             <div class="overflow-hidden flex-grow">
@@ -251,6 +277,34 @@
                 </div>
             </div>
         </section>
+
+
+<section class="min-h-screen relative overflow-hidden flex items-center justify-center px-6 py-20">
+    <div class="parallax-bg" style="background: linear-gradient(to bottom right, black, rgb(39 39 42), rgb(23 23 23));"></div>
+
+    <div class="relative z-10 w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-12 items-center backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl shadow-2xl p-10 md:p-16 animate-fade-in-up transition-all duration-1000 ease-out">
+
+        <div class="flex flex-col items-start md:items-start justify-center w-full">
+            <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold bg-gradient-to-r from-blue-500 to-purple-400 bg-clip-text text-transparent tracking-tight" style="font-family: 'Inter', sans-serif;">
+                CI MINDS
+            </h1>
+            <div class="text-sm text-slate-400 font-medium uppercase tracking-widest mt-4" style="font-family: 'Inter', sans-serif;">
+                — who we are —
+            </div>
+        </div>
+
+        <div class="text-left space-y-6 w-full">
+            <h2 class="text-4xl md:text-5xl font-bold text-white" style="font-family: 'Poppins', sans-serif;">
+                Next-Gen Design Thinkers
+            </h2>
+            <p class="text-lg md:text-xl text-slate-300 leading-relaxed" style="font-family: 'Inter', sans-serif;">
+                We are <strong class="text-white">CI MINDS</strong> — a digital design studio fusing artistic vision with AI-powered innovation.<br><br>
+                Our mission is to create intuitive, intelligent, and impactful experiences that don’t just look good — they <b> THINK BETTER</b> .
+            </p>
+        </div>
+    </div>
+</section>
+
 
         <section id="services" class="py-20 md:py-32 observed-section relative overflow-hidden">
             <canvas id="services-particle-canvas"></canvas>
@@ -412,7 +466,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const preloader = document.getElementById('preloader');
             const nextgenText = document.getElementById('nextgen-text');
-            
+
             // Corrected Preloader Logic
             window.addEventListener('load', () => {
                 // Trigger the slide-in animation
@@ -856,6 +910,28 @@
             resizeCanvases(); // Initial resize
             animateHeroParticles(); // Start hero animation
             animateServicesParticles(); // Start services animation
+
+            // Parallax effect for "Who We Are" section
+            const whoWeAreSection = document.querySelector('.min-h-screen.relative.overflow-hidden');
+            const parallaxBg = document.querySelector('.parallax-bg');
+
+            if (whoWeAreSection && parallaxBg) {
+                window.addEventListener('scroll', () => {
+                    const scrollPosition = window.scrollY;
+                    const sectionTop = whoWeAreSection.offsetTop;
+                    const sectionHeight = whoWeAreSection.offsetHeight;
+
+                    // Calculate how much the background should move
+                    // Adjust the multiplier (e.g., 0.3) for desired parallax intensity
+                    // A smaller multiplier means slower background movement (more pronounced parallax)
+                    const yPos = (scrollPosition - sectionTop) * 0.3; // 0.3 is the parallax speed
+
+                    // Only apply parallax when the section is in view
+                    if (scrollPosition > sectionTop - window.innerHeight && scrollPosition < sectionTop + sectionHeight) {
+                        parallaxBg.style.transform = `translateY(${yPos}px)`;
+                    }
+                });
+            }
         });
     </script>
 </body>
