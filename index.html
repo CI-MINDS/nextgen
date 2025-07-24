@@ -1,21 +1,856 @@
-<form action="https://formsubmit.co/prithvixzzz@gmail.com" method="POST" id="contact-form" class="grid grid-cols-1 gap-y-6">
-    <input type="hidden" name="_captcha" value="false">
-    <div>
-        <label for="name" class="sr-only">Full name</label>
-        <input type="text" name="name" id="name" required placeholder="Full name"
-            class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 bg-[var(--card)] border-[var(--border)] rounded-md focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--text)]">
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Design Studio | Shaping Future Digital Experiences</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="An elite AI-powered design studio specializing in next-generation UI/UX, branding, and interactive web experiences. Discover 2025's design trends.">
+    <meta name="theme-color" content="#111827">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #0d1117;
+            --text: #e6edf3;
+            --primary: #6366f1;
+            --secondary: #c084fc;
+            --border: #30363d;
+            --card: #161b22;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            cursor: none; /* Hide default cursor */
+        }
+
+        .nav-link::after {
+            content: "";
+            display: block;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width .3s;
+        }
+
+        .nav-link.active::after, .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .section-fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .section-fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+
+        /* Custom Cursor Styles */
+        .custom-cursor {
+            pointer-events: none;
+            position: fixed;
+            z-index: 2025;
+            height: 16px; /* Smaller */
+            width: 16px; /* Smaller */
+            border-radius: 50%;
+            background: rgba(99, 102, 241, 0.4); /* Primary color, semi-transparent */
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.6); /* Soft glow */
+            transition: transform .1s ease-out; /* Smoother transition */
+            will-change: transform;
+            transform: translate(-50%,-50%); /* Center the cursor */
+        }
+
+        .custom-cursor.hovered { /* New class for hover state */
+            transform: translate(-50%, -50%) scale(1.8); /* Scale up on hover */
+        }
+
+        /* Animated background for navbar when scrolled (previously hero background) */
+        .navbar-scrolled-gradient {
+            background: linear-gradient(45deg, #0d1117, #1a202c, #0d1117);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite; /* Keep the animation */
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Hero background will now be solid card color */
+        .hero-background-animation {
+            position: absolute;
+            inset: 0;
+            background-color: var(--card); /* Changed to solid card color */
+            z-index: -1; /* Placed behind particles */
+        }
+
+        /* New animation for service cards - subtle pulse glow */
+        @keyframes card-pulse-glow {
+            0% { box-shadow: 0 0 5px rgba(99, 102, 241, 0.1); } /* Subtle primary glow*/
+            50% {box-shadow: 0 0 15px rgba(99, 102, 241, 0.3); } /* More pronounced glow */
+            100% { box-shadow: 0 0 5px rgba(99, 102, 241, 0.1); }
+        }
+
+        .service-card-glow {
+            animation: card-pulse-glow 4s infinite ease-in-out;
+            transition: all 0.3s ease-in-out; /* Added for smooth hover transitions */
+        }
+
+        /* Hover effect for service cards */
+        .service-card-glow:hover {
+            transform: translateY(-8px) scale(1.03); /* Lift and slightly enlarge */
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.5); /* More intense glow */
+            border-color: var(--secondary); /* Change border color on hover */
+        }
+
+        /* Particle Canvas for Hero Section */
+        #particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* Placed on top of gradient background */
+            background-color: transparent; /* Ensure background is transparent to see gradient */
+        }
+
+        /* Particle Canvas for Services Section */
+        #services-particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Ensure it's behind content */
+            background-color: var(--bg); /* Fallback background */
+        }
+
+        /* Preloader Specific Styles */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background-color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999; /* This is the fix: ensures preloader is on top of everything */
+            opacity: 1;
+            transition: opacity 0.5s ease-out; /* Smooth fade out */
+        }
+
+        #preloader.hidden {
+            opacity: 0;
+            pointer-events: none; /* Make it unclickable when hidden */
+        }
+
+        /* Corrected Preloader Animation Styles */
+        .translate-x-\[-40px\] {
+          transform: translateX(-40px);
+        }
+        .translate-x-0 {
+          transform: translateX(0);
+        }
+
+    </style>
+</head>
+<body class="bg-[var(--bg)] text-[var(--text)]">
+
+    <div id="preloader">
+        <div class="flex items-center p-4 sm:p-6 md:p-8 lg:p-10">
+            <div class="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight pr-2 sm:pr-3 md:pr-4 flex-shrink-0" style="font-family: 'Inter', sans-serif;">
+                CI Minds 
+            </div>
+            <div class="h-12 sm:h-16 md:h-20 lg:h-24 w-1 bg-white mx-1 sm:mx-2 md:mx-3 flex-shrink-0"></div>
+            <div class="overflow-hidden flex-grow">
+                <div id="nextgen-text" class="flex flex-col items-start pl-1 sm:pl-2 md:pl-3 opacity-0 translate-x-[-40px] transition-all duration-1000 ease-out leading-tight" style="font-family: 'Inter', sans-serif;">
+                    <div class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold">
+                        <span class="text-blue-500">Inspiring</span>
+                        <span class="text-gray-400">nextGen</span>
+                    </div>
+                    <div class="text-white text-xs sm:text-sm md:text-base lg:text-lg tracking-wide mt-1">
+                        CBK INNOVATIVE MINDS
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-        <label for="email" class="sr-only">Email</label>
-        <input id="email" name="email" type="email" required placeholder="Email address"
-            class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 bg-[var(--card)] border-[var(--border)] rounded-md focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--text)]">
+
+    <div id="custom-cursor" class="custom-cursor"></div>
+
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="#home" class="text-2xl font-extrabold text-[var(--primary)]">AI.DS</a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#services" class="nav-link text-base font-medium">Services</a>
+                    <a href="#trends" class="nav-link text-base font-medium">Trends</a>
+                    <a href="#work" class="nav-link text-base font-medium">Work</a>
+                    <a href="#team" class="nav-link text-base font-medium">Team</a>
+                    <a href="#contact" class="nav-link text-base font-medium">Contact</a>
+                </div>
+                <div class="flex items-center">
+                    <span class="hidden md:block text-2xl font-extrabold text-[var(--primary)] tracking-wide">CI MINDS</span>
+                    <button id="mobile-menu-button" class="md:hidden ml-4 p-2 rounded-md focus:outline-none">
+                        <span class="text-2xl">&#9776;</span> </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-[var(--card)]/95 backdrop-blur-sm">
+            <a href="#services" class="block py-3 px-4 text-base font-medium text-center">Services</a>
+            <a href="#trends" class="block py-3 px-4 text-base font-medium text-center">Trends</a>
+            <a href="#work" class="block py-3 px-4 text-base font-medium text-center">Work</a>
+            <a href="#team" class="block py-3 px-4 text-base font-medium text-center">Team</a>
+            <a href="#contact" class="block py-3 px-4 text-base font-medium text-center">Contact</a>
+        </div>
+    </nav>
+
+    <main class="pt-20">
+        <section id="home" class="min-h-[90vh] flex items-center relative observed-section section-fade-in visible">
+            <div class="hero-background-animation"></div>
+            <canvas id="particle-canvas"></canvas>
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter text-[var(--text)]">
+                    Designing Tomorrow
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)]">with AI</span>
+                </h1>
+                <p class="mt-6 max-w-2xl mx-auto text-lg md:text-xl text-slate-300">
+                    We are an innovation studio that blends artificial intelligence with human creativity to build unforgettable digital products and brand experiences for the future.
+                </p>
+                <div class="mt-10 flex justify-center gap-4">
+                    <a href="#work" class="px-8 py-4 bg-[var(--primary)] text-white font-bold rounded-full text-lg hover:scale-105 transform transition-transform duration-300 shadow-lg shadow-indigo-500/20">View Our Work</a>
+                    <a href="#contact" class="px-8 py-4 bg-[var(--card)] text-[var(--text)] font-bold rounded-full text-lg hover:scale-105 transform transition-transform duration-300 border border-[var(--border)]">Get in Touch</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="py-20 md:py-32 observed-section relative overflow-hidden">
+            <canvas id="services-particle-canvas"></canvas>
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 section-fade-in relative z-10">
+                <div class="text-center">
+                    <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight">Our Expertise</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-300">We leverage AI to push the boundaries of digital design and strategy.</p>
+                </div>
+                <div class="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+                    <div class="p-8 bg-[var(--card)] rounded-2xl shadow-sm border border-[var(--border)] service-card-glow">
+                        <div class="text-4xl text-[var(--primary)]">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 mx-auto">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9.125 21.75l-1.853-1.054a4.5 4.5 0 01-2.606-3.027 4.5 4.5 0 01-.342-2.823A9.905 9.905 0 011.5 10.5c0-4.68 3.559-8.5 8-8.5s8 3.82 8 8.5a9.905 9.905 0 01-2.653 7.466c-.09.103-.204.2-.342.282a4.5 4.5 0 01-3.027 2.606zM12 11.25a.75.75 0 000 1.5h.007a.75.75 0 000-1.5H12zm2.25 0a.75.75 0 000 1.5h.007a.75.75 0 000-1.5H14.25zM16.5 11.25a.75.75 0 000 1.5h.007a.75.75 0 000-1.5H16.5z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="mt-4 text-2xl font-bold">Generative Branding</h3>
+                        <p class="mt-2 text-slate-300">AI-powered logo systems and brand identities that are dynamic, unique, and endlessly adaptable.</p>
+                    </div>
+                    <div class="p-8 bg-[var(--card)] rounded-2xl shadow-sm border border-[var(--border)] service-card-glow">
+                        <div class="text-4xl text-[var(--primary)]">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 mx-auto">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 107.5 7.5c0-3.15-1.076-6.075-2.992-8.31L9 2.25z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M1.5 7.5c0-1.61.993-2.99 2.404-3.565L12 1.5l8.096 2.435C22.507 4.51 23.5 5.89 23.5 7.5v8.94c0 1.057-.464 2.052-1.277 2.738A4.5 4.5 0 0118.5 22.5h-13c-1.282 0-2.48-.564-3.223-1.58C1.964 20.292 1.5 19.297 1.5 18.24V7.5z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="mt-4 text-2xl font-bold">UI/UX Prototyping</h3>
+                        <p class="mt-2 text-slate-300">Rapidly creating and testing intelligent, user-centric interfaces that learn and adapt to user needs.</p>
+                    </div>
+                    <div class="p-8 bg-[var(--card)] rounded-2xl shadow-sm border border-[var(--border)] service-card-glow">
+                        <div class="text-4xl text-[var(--primary)]">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 mx-auto">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18zm0 0a9 9 0 00-7.5-4.5c1.4-1.2 2.6-2.7 3.5-4.5a.75.75 0 011.35-1.35c.9-.9 2.4-2.1 4.5-2.1s3.6 1.2 4.5 2.1a.75.75 0 011.35 1.35c.9 1.8 2.1 3.3 3.5 4.5A9 9 0 0012 21zm0-7.5a.75.75 0 000-1.5h.007a.75.75 0 000 1.5H12zm2.25 0a.75.75 0 000-1.5h.007a.75.75 0 000-1.5H14.25zM16.5 11.25a.75.75 0 000 1.5h.007a.75.75 0 000-1.5H16.5z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="mt-4 text-2xl font-bold">Interactive Web Apps</h3>
+                        <p class="mt-2 text-slate-300">Developing immersive web experiences with 3D elements, micro-interactions, and AI-driven content.</p>
+                    </div>
+                    <div class="p-8 bg-[var(--card)] rounded-2xl shadow-sm border border-[var(--border)] service-card-glow">
+                        <div class="text-4xl text-[var(--primary)]">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 mx-auto">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12.75l-.75-3.75H.75C.336 9 .004 8.704.004 8.25s.332-.75.746-.75h2.25L3.75 3.75C3.896 3.097 4.512 2.75 5.25 2.75h13.5c.738 0 1.354.347 1.5.75l.75 3.75h2.25c.414 0 .746.296.746.75s-.332.75-.746.75h-.75l-.75 3.75c-.146.653-.762 1-1.5 1h-13.5c-.738 0-1.354-.347-1.5-.75zM12 18a3.75 3.75 0 100-7.5 3.75 3.75 0 000 7.5z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="mt-4 text-2xl font-bold">Data Visualization</h3>
+                        <p class="mt-2 text-slate-300">Transforming complex data into beautiful, intuitive, and interactive stories that drive insight.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="trends" class="py-20 md:py-32 bg-[#1a202c] observed-section">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 section-fade-in">
+                <div class="text-center">
+                    <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight">Our Design & Development Focus</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-300">We specialize in a comprehensive range of services to bring your digital vision to life.</p>
+                </div>
+                <div class="mt-16 chart-container">
+                    <canvas id="trendsChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="work" class="py-20 md:py-32 observed-section">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 section-fade-in">
+                <div class="text-center">
+                    <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight">Featured Work</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-300">A selection of projects that showcase our blend of art and intelligence.</p>
+                </div>
+                <div id="filter-buttons" class="mt-12 flex justify-center flex-wrap gap-4">
+                    <button class="filter-btn active px-5 py-2 font-semibold rounded-full bg-[var(--primary)] text-white" data-filter="all">All</button>
+                    <button class="filter-btn px-5 py-2 font-semibold rounded-full bg-[var(--card)] text-[var(--text)] border border-[var(--border)] hover:bg-[var(--primary)] hover:text-white transition-colors duration-300" data-filter="branding">Branding</button>
+                    <button class="filter-btn px-5 py-2 font-semibold rounded-full bg-[var(--card)] text-[var(--text)] border border-[var(--border)] hover:bg-[var(--primary)] hover:text-white transition-colors duration-300" data-filter="uiux">UI/UX</button>
+                    <button class="filter-btn px-5 py-2 font-semibold rounded-full bg-[var(--card)] text-[var(--text)] border border-[var(--border)] hover:bg-[var(--primary)] hover:text-white transition-colors duration-300" data-filter="web">Web App</button>
+                </div>
+                <div id="portfolio-grid" class="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    </div>
+            </div>
+        </section>
+
+        <section id="team" class="py-20 md:py-32 bg-[#1a202c] observed-section">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 section-fade-in">
+                <div class="text-center">
+                    <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight">Meet the Innovators</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-300">A passionate team of designers, engineers, and strategists at the forefront of design.</p>
+                </div>
+                <div class="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    <div class="text-center p-8 bg-[var(--card)] rounded-2xl shadow-sm border border-[var(--border)] team-member-card">
+                        <img src="https://via.placeholder.com/128x128/6366f1/ffffff?text=pb" alt="pb" class="w-32 h-32 rounded-full mx-auto ring-4 ring-offset-4 ring-offset-[var(--card)] ring-[var(--primary)]">
+                        <h3 class="mt-6 text-2xl font-bold">pb</h3>
+                        <p class="mt-1 text-[var(--primary)] font-semibold">Lead UI/UX Architect</p>
+                        <p class="mt-2 text-slate-300">Empowering developers to refine, redesign, and innovate through intelligent code generation and transformation.</p>
+                    </div>
+                    <div class="text-center p-8 bg-[var(--card)] rounded-2xl shadow-sm border border-[var(--border)] team-member-card">
+                        <img src="https://via.placeholder.com/128x128/a855f7/ffffff?text=SHYAMA" alt="SHYAMA SHARMA" class="w-32 h-32 rounded-full mx-auto ring-4 ring-offset-4 ring-offset-[var(--card)] ring-[var(--primary)]">
+                        <h3 class="mt-6 text-2xl font-bold">SHYAMA SHARMA</h3>
+                        <p class="mt-1 text-[var(--primary)] font-semibold">Creative Technologist</p>
+                        <p class="mt-2 text-slate-300">Expert in generative art, kinetic typography, and building AI-assisted design tools.</p>
+                    </div>
+                    <div class="text-center p-8 bg-[var(--card)] rounded-2xl shadow-sm border border-[var(--border)] team-member-card">
+                        <img src="https://via.placeholder.com/128x128/10b981/ffffff?text=PRITHVI" alt="PRITHVI BHUSHAN" class="w-32 h-32 rounded-full mx-auto ring-4 ring-offset-4 ring-offset-[var(--card)] ring-[var(--primary)]">
+                        <h3 class="mt-6 text-2xl font-bold">PRITHVI BHUSHAN</h3>
+                        <p class="mt-1 text-[var(--primary)] font-semibold">AI Systems Engineer</p>
+                        <p class="mt-2 text-slate-300">Develops the core generative models and adaptive algorithms that power our creative output.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-20 md:py-32 observed-section">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 section-fade-in">
+                <div class="max-w-3xl mx-auto text-center">
+                    <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight">Let's Build the Future</h2>
+                    <p class="mt-4 text-lg text-slate-300">Have a project in mind or just want to explore possibilities? We'd love to hear from you.</p>
+                </div>
+                <div class="mt-12 max-w-xl mx-auto">
+                    <form id="contact-form" class="grid grid-cols-1 gap-y-6">
+                        <div>
+                            <label for="name" class="sr-only">Full name</label>
+                            <input type="text" name="name" id="name" required placeholder="Full name"
+                                class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 bg-[var(--card)] border-[var(--border)] rounded-md focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--text)]">
+                        </div>
+                        <div>
+                            <label for="email" class="sr-only">Email</label>
+                            <input id="email" name="email" type="email" required placeholder="Email address"
+                                class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 bg-[var(--card)] border-[var(--border)] rounded-md focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--text)]">
+                        </div>
+                        <div>
+                            <label for="message" class="sr-only">Message</label>
+                            <textarea id="message" name="message" rows="4" required placeholder="Tell us about your project..."
+                                class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 bg-[var(--card)] border-[var(--border)] rounded-md focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--text)]"></textarea>
+                        </div>
+                        <div>
+                            <button type="submit" class="w-full justify-center py-4 px-6 border border-transparent shadow-sm text-lg font-medium rounded-md text-white bg-[var(--primary)] hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary)] ring-offset-[var(--bg)]">Send Message</button>
+                        </div>
+                        <div id="form-status" class="text-center font-medium"></div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-[#1a202c]">
+        <div class="container mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center text-slate-400">
+            <p>&copy; 2025 AI Design Studio. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <div id="modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div id="modal-content" class="bg-[var(--card)] rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-8 relative transform transition-transform duration-300 scale-95">
+            <button id="modal-close-btn" class="absolute top-4 right-4 text-3xl text-slate-400 hover:text-[var(--text)]">&times;</button>
+            <img id="modal-img" src="" alt="Project Image" class="w-full h-64 object-cover rounded-lg mb-6">
+            <h2 id="modal-title" class="text-4xl font-extrabold mb-2"></h2>
+            <p id="modal-category" class="text-lg font-semibold text-[var(--text)] mb-4"></p>
+            <p id="modal-description" class="text-slate-300 text-lg"></p>
+        </div>
     </div>
-    <div>
-        <label for="message" class="sr-only">Message</label>
-        <textarea id="message" name="message" rows="4" required placeholder="Tell us about your project..."
-            class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 bg-[var(--card)] border-[var(--border)] rounded-md focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--text)]"></textarea>
-    </div>
-    <div>
-        <button type="submit" class="w-full justify-center py-4 px-6 border border-transparent shadow-sm text-lg font-medium rounded-md text-white bg-[var(--primary)] hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary)] ring-offset-[var(--bg)]">Send Message</button>
-    </div>
-</form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const preloader = document.getElementById('preloader');
+            const nextgenText = document.getElementById('nextgen-text');
+            
+            // Corrected Preloader Logic
+            window.addEventListener('load', () => {
+                // Trigger the slide-in animation
+                setTimeout(() => {
+                    nextgenText.classList.remove('opacity-0', 'translate-x-[-40px]');
+                    nextgenText.classList.add('opacity-100', 'translate-x-0');
+                }, 600); // Start animation shortly after load
+
+                // Hide preloader after animation completes
+                setTimeout(() => {
+                    preloader.classList.add('hidden');
+                    document.body.style.overflow = 'auto'; // Re-enable scrolling
+                }, 1500); // Wait for animation to finish
+            });
+
+            // Ensure body scrolling is disabled until preloader hides
+            document.body.style.overflow = 'hidden';
+
+            const projectsData = [
+                { id: 1, title: 'Project Hyperion', category: 'uiux', image: 'https://placehold.co/600x400/6366f1/ffffff?text=Hyperion+UI', description: 'A next-generation operating system interface designed for creative professionals. It features an adaptive layout engine and predictive workflows powered by a custom AI model, resulting in a 40% reduction in user task completion time.' },
+                { id: 2, title: 'Zenith Branding', category: 'branding', image: 'https://placehold.co/600x400/a855f7/ffffff?text=Zenith+Brand', description: 'A fully generative brand identity for a decentralized finance platform. The logo and visual assets evolve based on real-time market data, creating a living, breathing brand that is always current.' },
+                { id: 3, title: 'Aether Web App', category: 'web', image: 'https://placehold.co/600x400/10b981/ffffff?text=Aether+App', description: 'An immersive 3D data visualization tool for climate scientists. Built with WebGL and our proprietary rendering engine, Aether allows for intuitive exploration of complex global datasets.' },
+                { id: 4, title: 'Quantum Dynamics', category: 'branding', image: 'https://placehold.co/600x400/f59e0b/ffffff?text=Quantum', description: 'A bold and dynamic identity for a quantum computing startup. The visual system is based on the mathematical principles of quantum mechanics, created using generative adversarial networks.' },
+                { id: 5, title: 'Project Nova', category: 'uiux', image: 'https://placehold.co/600x400/ef4444/ffffff?text=Nova+UX', description: 'An AI-powered mobile application for personalized travel planning. Nova curates unique itineraries based on user preferences, learning and adapting from every interaction to provide truly bespoke experiences.' },
+                { id: 6, title: 'Momentum Platform', category: 'web', image: 'https://placehold.co/600x400/3b82f6/ffffff?text=Momentum', description: 'An educational web platform that uses AI to create personalized learning paths for students. Interactive modules and real-time feedback have led to a 60% increase in student engagement.' }
+            ];
+
+            const portfolioGrid = document.getElementById('portfolio-grid');
+            const filterButtonsContainer = document.getElementById('filter-buttons');
+            const modal = document.getElementById('modal');
+            const modalContent = document.getElementById('modal-content');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+
+            // Contact form elements
+            const contactForm = document.getElementById('contact-form');
+            const formStatus = document.getElementById('form-status');
+
+            // Chart related variables and functions
+            const ctx = document.getElementById('trendsChart').getContext('2d');
+            let trendsChart;
+
+            const createChart = () => {
+                const gridColor = 'rgba(255, 255, 255, 0.1)';
+                const textColor = '#e6edf3';
+                trendsChart = new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Graphic Designing', 'Website Designing', 'Website Developing', 'UI/UX', 'SEO', 'Poster Designing'],
+                        datasets: [{
+                            label: 'Expertise Level',
+                            data: [9, 8, 7, 9, 6, 8], /* Custom data for new categories */
+                            backgroundColor: 'rgba(99, 102, 241, 0.2)', /* Using primary color */
+                            borderColor: 'rgba(99, 102, 241, 1)', /* Using primary color */
+                            pointBackgroundColor: 'rgba(99, 102, 241, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(99, 102, 241, 1)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            r: {
+                                angleLines: { color: gridColor },
+                                grid: { color: gridColor },
+                                pointLabels: { color: textColor, font: { size: 14 } },
+                                ticks: {
+                                    color: textColor,
+                                    backdropColor: 'transparent',
+                                    stepSize: 2
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                labels: { color: textColor, font: { size: 14 } }
+                            }
+                        }
+                    }
+                });
+            }
+
+            const renderPortfolio = (filter = 'all') => {
+                portfolioGrid.innerHTML = '';
+                const filteredProjects = filter === 'all' ? projectsData : projectsData.filter(p => p.category === filter);
+                filteredProjects.forEach(project => {
+                    const card = document.createElement('div');
+                    card.className = `group cursor-pointer bg-[var(--card)] rounded-2xl shadow-sm border border-[var(--border)] overflow-hidden transform transition-all duration-300 hover:shadow-xl hover:-translate-y-2 portfolio-card`;
+                    card.innerHTML = `
+                        <div class="relative">
+                            <img src="${project.image}" alt="${project.title}" class="w-full h-56 object-cover">
+                            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300"></div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-[var(--text)]">${project.title}</h3>
+                            <p class="text-[var(--text)] font-semibold">${project.category.toUpperCase()}</p>
+                        </div>`;
+                    card.addEventListener('click', () => openModal(project));
+                    portfolioGrid.appendChild(card);
+                });
+            };
+
+            const openModal = (project) => {
+                document.getElementById('modal-img').src = project.image;
+                document.getElementById('modal-img').alt = project.title;
+                document.getElementById('modal-title').textContent = project.title;
+                document.getElementById('modal-category').textContent = project.category.toUpperCase();
+                document.getElementById('modal-description').textContent = project.description;
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                setTimeout(() => modalContent.classList.remove('scale-95'), 10);
+            };
+
+            const closeModal = () => {
+                modalContent.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                }, 300);
+            };
+
+            filterButtonsContainer.addEventListener('click', (e) => {
+                if(e.target.classList.contains('filter-btn')) {
+                    // Remove active class from the previously active button
+                    const currentActive = document.querySelector('.filter-btn.active');
+                    if (currentActive) {
+                        currentActive.classList.remove('active', 'bg-[var(--primary)]', 'text-white');
+                        // Apply inactive styles to the previously active button
+                        currentActive.classList.add('bg-[var(--card)]', 'text-[var(--text)]', 'border', 'border-[var(--border)]');
+                    }
+                    // Apply active class and its styles to the clicked button
+                    e.target.classList.add('active', 'bg-[var(--primary)]', 'text-white');
+                    // Remove inactive styles from the clicked button
+                    e.target.classList.remove('bg-[var(--card)]', 'text-[var(--text)]', 'border', 'border-[var(--border)]');
+                    renderPortfolio(e.target.dataset.filter);
+                }
+            });
+
+            modalCloseBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(); });
+            document.addEventListener('keydown', (e) => { if(e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal(); });
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            mobileMenu.addEventListener('click', (e) => {
+                if(e.target.tagName === 'A') {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                formStatus.textContent = "Sending...";
+                formStatus.style.color = 'var(--primary)';
+                setTimeout(() => {
+                    formStatus.textContent = "Thank you! We'll be in touch soon. ";
+                    formStatus.style.color = 'green';
+                    contactForm.reset();
+                }, 1500);
+            });
+
+            const nav = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    // When scrolled, apply the gradient background to the navbar
+                    nav.classList.add('navbar-scrolled-gradient', 'backdrop-blur-sm', 'shadow-md');
+                    // Remove the old background class if it was present
+                    nav.classList.remove('bg-[var(--card)]/80');
+                } else {
+                    // When not scrolled, remove the gradient and other effects
+                    nav.classList.remove('navbar-scrolled-gradient', 'backdrop-blur-sm', 'shadow-md');
+                    // Add back the original card background if it's the default (though it's transparent by default)
+                    nav.classList.add('bg-[var(--card)]/80');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    const navLink = document.querySelector(`.nav-link[href="#${id}"]`);
+                    if (entry.isIntersecting) {
+                        entry.target.querySelector('.section-fade-in')?.classList.add('visible');
+                        document.querySelectorAll('.nav-link').forEach(link =>
+                            link.classList.remove('active'));
+                        if (navLink) navLink.classList.add('active');
+                    }
+                });
+            }, { rootMargin: '0px' });
+
+            document.querySelectorAll('.observed-section').forEach(section => {
+                observer.observe(section);
+            });
+
+            renderPortfolio();
+            createChart(); // Initialize chart directly for dark theme
+
+            // Custom Cursor Logic
+            const customCursor = document.getElementById('custom-cursor');
+            document.addEventListener('mousemove', e => {
+                customCursor.style.left = e.clientX + 'px';
+                customCursor.style.top = e.clientY + 'px';
+            });
+
+            document.querySelectorAll('button, a, .filter-btn, .portfolio-card, .team-member-card').forEach(el => {
+                el.addEventListener('mouseenter', () => customCursor.classList.add('hovered'));
+                el.addEventListener('mouseleave', () => customCursor.classList.remove('hovered'));
+            });
+
+            // Particle Animation for Hero Section
+            const heroCanvas = document.getElementById('particle-canvas');
+            const ctxHeroParticles = heroCanvas.getContext('2d');
+            let heroParticles = [];
+            const heroParticleCount = 150; // Increased particle count for a denser effect
+            // Particle properties for Hero
+            const heroBaseParticleColor = 'rgba(99, 102, 241, 0.7)'; // Primary color with transparency
+            const heroGlowColor = 'rgba(99, 102, 241, 0.9)'; // Brighter primary for glow
+            const heroLineColor = 'rgba(99, 102, 241, 0.1)'; // Fainter lines, more subtle
+            const heroMaxLineDistance = 150;
+
+            function HeroParticle(x, y) {
+                this.x = x;
+                this.y = y;
+                this.baseSize = Math.random() * 1.5 + 0.5; // Base size between 0.5 and 2
+                this.size = this.baseSize;
+                this.speedX = (Math.random() - 0.5) * 0.7; // Random horizontal speed
+                this.speedY = (Math.random() - 0.5) * 0.7; // Random vertical speed
+                this.opacity = Math.random() * 0.4 + 0.6; // Random opacity between 0.6 and 1
+                this.pulseSpeed = Math.random() * 0.05 + 0.02; // Speed of pulsation
+                this.pulseFactor = Math.random() * Math.PI * 2; // Starting point for sine wave
+            }
+
+            HeroParticle.prototype.update = function(canvas) {
+                // Update position
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                // Bounce off edges with slight dampening
+                if (this.x > canvas.width || this.x < 0) this.speedX *= -0.95;
+                if (this.y > canvas.height || this.y < 0) this.speedY *= -0.95;
+
+                // Gentle drift/swirl towards center or random
+                const centerX = canvas.width / 2;
+                const centerY = canvas.height / 2;
+                const dxToCenter = centerX - this.x;
+                const dyToCenter = centerY - this.y;
+                const distanceToCenter = Math.sqrt(dxToCenter * dxToCenter + dyToCenter * dyToCenter);
+
+                // Apply a very subtle pull towards center if far away, or random drift
+                if (distanceToCenter > 100) {
+                    this.speedX += (dxToCenter / distanceToCenter) * 0.001;
+                    this.speedY += (dyToCenter / distanceToCenter) * 0.001;
+                } else {
+                    this.speedX += (Math.random() - 0.5) * 0.02;
+                    this.speedY += (Math.random() - 0.5) * 0.02;
+                }
+
+                // Limit speed to prevent erratic movement
+                const maxSpeed = 0.8;
+                if (this.speedX > maxSpeed) this.speedX = maxSpeed;
+                if (this.speedX < -maxSpeed) this.speedX = -maxSpeed;
+                if (this.speedY > maxSpeed) this.speedY = maxSpeed;
+                if (this.speedY < -maxSpeed) this.speedY = -maxSpeed;
+
+                // Update pulsation
+                this.pulseFactor += this.pulseSpeed;
+                this.size = this.baseSize + (Math.sin(this.pulseFactor) * 0.5); // Pulsating size
+                if (this.size < 0.5) this.size = 0.5; // Ensure size doesn't go below minimum
+            };
+
+            HeroParticle.prototype.draw = function(ctx) {
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = heroBaseParticleColor;
+                // Add glowing effect
+                ctx.shadowBlur = this.size * 5; // Glow intensity based on size
+                ctx.shadowColor = heroGlowColor;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                // Reset shadow properties for other drawings
+                ctx.shadowBlur = 0;
+                ctx.shadowColor = 'transparent';
+                ctx.globalAlpha = 1; // Reset global alpha
+            };
+
+            function initHeroParticles() {
+                heroParticles = [];
+                for (let i = 0; i < heroParticleCount; i++) {
+                    const x = Math.random() * heroCanvas.width;
+                    const y = Math.random() * heroCanvas.height;
+                    heroParticles.push(new HeroParticle(x, y));
+                }
+            }
+
+            function animateHeroParticles() {
+                ctxHeroParticles.clearRect(0, 0, heroCanvas.width, heroCanvas.height); // Clear canvas
+                for (let i = 0; i < heroParticles.length; i++) {
+                    heroParticles[i].update(heroCanvas);
+                    heroParticles[i].draw(ctxHeroParticles);
+                    // Draw lines between close particles
+                    for (let j = i; j < heroParticles.length; j++) {
+                        const dx = heroParticles[i].x - heroParticles[j].x;
+                        const dy = heroParticles[i].y - heroParticles[j].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        if (distance < heroMaxLineDistance) {
+                            ctxHeroParticles.strokeStyle = heroLineColor;
+                            ctxHeroParticles.lineWidth = 0.5;
+                            ctxHeroParticles.beginPath();
+                            ctxHeroParticles.moveTo(heroParticles[i].x, heroParticles[i].y);
+                            ctxHeroParticles.lineTo(heroParticles[j].x, heroParticles[j].y);
+                            ctxHeroParticles.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(animateHeroParticles); // Loop animation
+            }
+
+            // Particle Animation for Services Section
+            const servicesCanvas = document.getElementById('services-particle-canvas');
+            const ctxServicesParticles = servicesCanvas.getContext('2d');
+            let servicesParticles = [];
+            const servicesParticleCount = 40; // Fewer particles for subtlety
+
+            // Particle properties for Services
+            const servicesBaseParticleColor = 'rgba(99, 102, 241, 0.05)'; // Very low opacity primary
+            const servicesGlowColor = 'rgba(99, 102, 241, 0.1)'; // Very low opacity glow
+            const servicesLineColor = 'rgba(99, 102, 241, 0.02)'; // Almost invisible lines
+            const servicesMaxLineDistance = 200; // Larger distance for fewer particles to connect
+
+            function ServicesParticle(x, y) {
+                this.x = x;
+                this.y = y;
+                this.baseSize = Math.random() * 4 + 2; // Larger base size between 2 and 6
+                this.size = this.baseSize;
+                this.speedX = (Math.random() - 0.5) * 0.2; // Very slow horizontal speed
+                this.speedY = (Math.random() - 0.5) * 0.2; // Very slow vertical speed
+                this.opacity = Math.random() * 0.05 + 0.05; // Very low opacity between 0.05 and 0.1
+                this.pulseSpeed = Math.random() * 0.03 + 0.01; // Slower pulsation
+                this.pulseFactor = Math.random() * Math.PI * 2;
+            }
+
+            ServicesParticle.prototype.update = function(canvas) {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > canvas.width || this.x < 0) this.speedX *= -0.95;
+                if (this.y > canvas.height || this.y < 0) this.speedY *= -0.95;
+
+                const centerX = canvas.width / 2;
+                const centerY = canvas.height / 2;
+                const dxToCenter = centerX - this.x;
+                const dyToCenter = centerY - this.y;
+                const distanceToCenter = Math.sqrt(dxToCenter * dxToCenter + dyToCenter * dyToCenter);
+
+                if (distanceToCenter > 150) { // Subtle pull if far
+                    this.speedX += (dxToCenter / distanceToCenter) * 0.0005;
+                    this.speedY += (dyToCenter / distanceToCenter) * 0.0005;
+                } else { // Very gentle random drift
+                    this.speedX += (Math.random() - 0.5) * 0.01;
+                    this.speedY += (Math.random() - 0.5) * 0.01;
+                }
+
+                const maxSpeed = 0.3;
+                if (this.speedX > maxSpeed) this.speedX = maxSpeed;
+                if (this.speedX < -maxSpeed) this.speedX = -maxSpeed;
+                if (this.speedY > maxSpeed) this.speedY = maxSpeed;
+                if (this.speedY < -maxSpeed) this.speedY = -maxSpeed;
+
+                this.pulseFactor += this.pulseSpeed;
+                this.size = this.baseSize + (Math.sin(this.pulseFactor) * 1); // Larger pulsation
+                if (this.size < 2) this.size = 2;
+            };
+
+            ServicesParticle.prototype.draw = function(ctx) {
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = servicesBaseParticleColor;
+                ctx.shadowBlur = this.size * 3; // Softer glow
+                ctx.shadowColor = servicesGlowColor;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                ctx.shadowColor = 'transparent';
+                ctx.globalAlpha = 1;
+            };
+
+            function initServicesParticles() {
+                servicesParticles = [];
+                for (let i = 0; i < servicesParticleCount; i++) {
+                    const x = Math.random() * servicesCanvas.width;
+                    const y = Math.random() * servicesCanvas.height;
+                    servicesParticles.push(new ServicesParticle(x, y));
+                }
+            }
+
+            function animateServicesParticles() {
+                ctxServicesParticles.clearRect(0, 0, servicesCanvas.width, servicesCanvas.height);
+                for (let i = 0; i < servicesParticles.length; i++) {
+                    servicesParticles[i].update(servicesCanvas);
+                    servicesParticles[i].draw(ctxServicesParticles);
+                    for (let j = i; j < servicesParticles.length; j++) {
+                        const dx = servicesParticles[i].x - servicesParticles[j].x;
+                        const dy = servicesParticles[i].y - servicesParticles[j].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        if (distance < servicesMaxLineDistance) {
+                            ctxServicesParticles.strokeStyle = servicesLineColor;
+                            ctxServicesParticles.lineWidth = 0.5;
+                            ctxServicesParticles.beginPath();
+                            ctxServicesParticles.moveTo(servicesParticles[i].x, servicesParticles[i].y);
+                            ctxServicesParticles.lineTo(servicesParticles[j].x, servicesParticles[j].y);
+                            ctxServicesParticles.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(animateServicesParticles);
+            }
+
+            // Handle canvas resizing for both canvases
+            function resizeCanvases() {
+                // Hero Canvas
+                heroCanvas.width = window.innerWidth;
+                heroCanvas.height = document.getElementById('home').offsetHeight;
+                initHeroParticles();
+                // Services Canvas
+                servicesCanvas.width = window.innerWidth;
+                servicesCanvas.height = document.getElementById('services').offsetHeight;
+                initServicesParticles();
+            }
+
+            window.addEventListener('resize', resizeCanvases);
+            resizeCanvases(); // Initial resize
+            animateHeroParticles(); // Start hero animation
+            animateServicesParticles(); // Start services animation
+        });
+    </script>
+</body>
+</html>
