@@ -139,7 +139,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 1; /* Placed on top of parallax background */
+            z-index: 0; /* Placed on top of gradient background */
             background-color: transparent; /* Ensure background is transparent to see gradient */
         }
 
@@ -150,8 +150,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 1; /* Ensure it's above parallax background */
-            background-color: transparent; /* Ensure transparent to see parallax bg */
+            z-index: -1; /* Ensure it's behind content */
+            background-color: var(--bg); /* Fallback background */
         }
 
         /* Preloader Specific Styles */
@@ -180,35 +180,30 @@
           transform: translateX(0);
         }
 
-        /* Parallax effect for the sections */
-        .parallax-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 150%; /* Make it taller than the section to allow for movement */
-            background-size: cover;
-            background-position: center;
-            will-change: transform;
-            z-index: 0; /* Behind the content and particles */
-        }
+/* blank animating page who we ar */
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in-up {
-            animation: fadeInUp 1s ease-out forwards;
-        }
 
-    </style>
+
+
+
+
+    
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+  animation: fadeInUp 1s ease-out forwards;
+}
+
+</style>
 </head>
 <body class="bg-[var(--bg)] text-[var(--text)]">
 
     <div id="preloader">
         <div class="flex items-center p-4 sm:p-6 md:p-8 lg:p-10">
             <div class="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight pr-2 sm:pr-3 md:pr-4 flex-shrink-0" style="font-family: 'Inter', sans-serif;">
-                CI Minds
+                CI Minds 
             </div>
             <div class="h-12 sm:h-16 md:h-20 lg:h-24 w-1 bg-white mx-1 sm:mx-2 md:mx-3 flex-shrink-0"></div>
             <div class="overflow-hidden flex-grow">
@@ -255,8 +250,8 @@
     </nav>
 
     <main class="pt-20">
-        <section id="home" class="min-h-[90vh] flex items-center relative observed-section section-fade-in visible parallax-section-wrapper">
-            <div class="parallax-bg" style="background-color: var(--card);"></div>
+        <section id="home" class="min-h-[90vh] flex items-center relative observed-section section-fade-in visible">
+            <div class="hero-background-animation"></div>
             <canvas id="particle-canvas"></canvas>
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
                 <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter text-[var(--text)]">
@@ -273,33 +268,41 @@
             </div>
         </section>
 
-        <section class="min-h-screen relative overflow-hidden flex items-center justify-center px-6 py-20 parallax-section-wrapper">
-            <div class="parallax-bg" style="background: linear-gradient(to bottom right, black, rgb(39 39 42), rgb(23 23 23));"></div>
+        
+<!-- Blank Black Transition Section -->
+<!-- Who We Are Section -->
+<!-- Who We Are Section -->
+<section class="min-h-screen bg-gradient-to-br from-black via-zinc-900 to-neutral-950 flex items-center justify-center px-6 py-20">
+  <div class="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-12 items-center backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl shadow-2xl p-10 md:p-16 animate-fade-in-up transition-all duration-1000 ease-out">
+    
+    <!-- Left: CI MINDS Branding (left-aligned with gradient) -->
+    <div class="flex flex-col items-start md:items-start justify-center w-full">
+      <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold bg-gradient-to-r from-blue-500 to-purple-400 bg-clip-text text-transparent tracking-tight" style="font-family: 'Inter', sans-serif;">
+        CI MINDS
+      </h1>
+      <div class="text-sm text-slate-400 font-medium uppercase tracking-widest mt-4" style="font-family: 'Inter', sans-serif;">
+        — who we are —
+      </div>
+    </div>
 
-            <div class="relative z-10 w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-12 items-center backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl shadow-2xl p-10 md:p-16 animate-fade-in-up transition-all duration-1000 ease-out">
-                <div class="flex flex-col items-start md:items-start justify-center w-full">
-                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold bg-gradient-to-r from-blue-500 to-purple-400 bg-clip-text text-transparent tracking-tight" style="font-family: 'Inter', sans-serif;">
-                        CI MINDS
-                    </h1>
-                    <div class="text-sm text-slate-400 font-medium uppercase tracking-widest mt-4" style="font-family: 'Inter', sans-serif;">
-                        — who we are —
-                    </div>
-                </div>
+    <!-- Right: Who We Are Content -->
+    <div class="text-left space-y-6 w-full">
+      <h2 class="text-4xl md:text-5xl font-bold text-white" style="font-family: 'Poppins', sans-serif;">
+        Next-Gen Design Thinkers
+      </h2>
+      <p class="text-lg md:text-xl text-slate-300 leading-relaxed" style="font-family: 'Inter', sans-serif;">
+        We are <strong class="text-white">CI MINDS</strong> — a digital design studio fusing artistic vision with AI-powered innovation.<br><br>
+        Our mission is to create intuitive, intelligent, and impactful experiences that don’t just look good — they <B>THINK BETTER</B> .
+      </p>
+    </div>
+  </div>
+</section>
 
-                <div class="text-left space-y-6 w-full">
-                    <h2 class="text-4xl md:text-5xl font-bold text-white" style="font-family: 'Poppins', sans-serif;">
-                        Next-Gen Design Thinkers
-                    </h2>
-                    <p class="text-lg md:text-xl text-slate-300 leading-relaxed" style="font-family: 'Inter', sans-serif;">
-                        We are <strong class="text-white">CI MINDS</strong> — a digital design studio fusing artistic vision with AI-powered innovation.<br><br>
-                        Our mission is to create intuitive, intelligent, and impactful experiences that don’t just look good — they <b>THINK BETTER</b> .
-                    </p>
-                </div>
-            </div>
-        </section>
 
-        <section id="services" class="py-20 md:py-32 observed-section relative overflow-hidden parallax-section-wrapper">
-            <div class="parallax-bg" style="background-color: var(--bg);"></div>
+
+
+
+        <section id="services" class="py-20 md:py-32 observed-section relative overflow-hidden">
             <canvas id="services-particle-canvas"></canvas>
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 section-fade-in relative z-10">
                 <div class="text-center">
@@ -377,9 +380,8 @@
             </div>
         </section>
 
-        <section id="team" class="py-20 md:py-32 bg-[#1a202c] observed-section relative overflow-hidden parallax-section-wrapper">
-            <div class="parallax-bg" style="background-color: #1a202c;"></div>
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 section-fade-in relative z-10">
+        <section id="team" class="py-20 md:py-32 bg-[#1a202c] observed-section">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 section-fade-in">
                 <div class="text-center">
                     <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight">Meet the Innovators</h2>
                     <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-300">A passionate team of designers, engineers, and strategists at the forefront of design.</p>
@@ -460,7 +462,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const preloader = document.getElementById('preloader');
             const nextgenText = document.getElementById('nextgen-text');
-
+            
             // Corrected Preloader Logic
             window.addEventListener('load', () => {
                 // Trigger the slide-in animation
@@ -484,8 +486,14 @@
                 { id: 2, title: 'Zenith Branding', category: 'branding', image: 'https://placehold.co/600x400/a855f7/ffffff?text=Zenith+Brand', description: 'basic branding services to establish your companys identity This includes logo design a primary color palette, and basic typography.' },
                 { id: 3, title: 'Aether Website', category: 'web', image: 'https://placehold.co/600x400/10b981/ffffff?text=Aether+App', description: 'ather app is a basic website design package that offers a simple and straightforward online presence. its perfect for individuals or small businesses just starting out.' },
                 { id: 4, title: 'Quantum Dynamics', category: 'branding', image: 'https://placehold.co/600x400/f59e0b/ffffff?text=Quantum', description: 'comprehensive branding solutions from brand strategy and messaging to visual identity logo design colour pallets typography and imagery creating complete brand experience.' },
+
+
                 { id: 5, title: 'Project Nova', category: 'uiux', image: 'https://placehold.co/600x400/ef4444/ffffff?text=Nova+UX', description: 'Nova UX is great for anyone who wants a premium, easy-to-use design experience. It offers advanced features like theme redesigns, custom buttons, and enhanced UI/UX elements.' },
+
+
+
                 { id: 6, title: 'Momentum Platform', category: 'web', image: 'https://placehold.co/600x400/3b82f6/ffffff?text=Momentum', description: 'Momentum platform, is an advanced website development package that offers customized feature-rich websites tailored to specific client needs and goals.' }
+
             ];
 
             const portfolioGrid = document.getElementById('portfolio-grid');
@@ -898,41 +906,6 @@
             resizeCanvases(); // Initial resize
             animateHeroParticles(); // Start hero animation
             animateServicesParticles(); // Start services animation
-
-            // --- Generic Parallax Effect for multiple sections ---
-            const parallaxSections = document.querySelectorAll('.parallax-section-wrapper');
-
-            window.addEventListener('scroll', () => {
-                const scrollPosition = window.scrollY;
-
-                parallaxSections.forEach(section => {
-                    const parallaxBg = section.querySelector('.parallax-bg');
-                    if (parallaxBg) {
-                        const sectionTop = section.offsetTop;
-                        const sectionHeight = section.offsetHeight;
-
-                        // Adjust the multiplier for desired parallax intensity
-                        // A smaller multiplier means slower background movement (more pronounced parallax)
-                        let parallaxSpeed = 0.3; // Default speed
-
-                        // You can set different speeds for different sections if needed
-                        if (section.id === 'home') {
-                            parallaxSpeed = 0.4; // Slightly faster for hero
-                        } else if (section.id === 'services') {
-                            parallaxSpeed = 0.2; // Slower for services
-                        }
-
-                        const yPos = (scrollPosition - sectionTop) * parallaxSpeed;
-
-                        // Only apply parallax when the section is in or near the viewport
-                        // This check prevents unnecessary calculations when the section is far off-screen
-                        if (scrollPosition + window.innerHeight > sectionTop && scrollPosition < sectionTop + sectionHeight + window.innerHeight) {
-                            parallaxBg.style.transform = `translateY(${yPos}px)`;
-                        }
-                    }
-                });
-            });
-
         });
     </script>
 </body>
