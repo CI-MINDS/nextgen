@@ -15,6 +15,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cabin&display=swap" rel="stylesheet">
+
 
     <style>
         :root {
@@ -185,7 +190,6 @@
 
 
 
-    
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(40px); }
   to { opacity: 1; transform: translateY(0); }
@@ -225,6 +229,109 @@
 .back-button:hover svg {
     transform: translateX(-3px); /* Arrow moves slightly left */
 }
+
+/* New styles for the Innovator section */
+.innovator-card {
+    display: flex; /* Use flexbox for layout */
+    align-items: center; /* Vertically align items */
+    gap: 32px; /* Space between image and text */
+    padding: 32px;
+    background-color: #1a202c; /* Darker background */
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); /* Deeper shadow */
+    transition: all 0.4s ease-in-out; /* Smooth transitions for hover effects */
+}
+
+.innovator-card:hover {
+    transform: translateY(-10px) scale(1.02); /* Lift and slight scale on hover */
+    box-shadow: 0 12px 30px rgba(99, 102, 241, 0.6); /* Prominent glow on hover */
+    border-color: var(--secondary); /* Highlight border on hover */
+}
+
+.innovator-card img {
+    flex-shrink: 0; /* Prevent image from shrinking */
+    width: 300px; /* Larger image for "big dimension" */
+    height: 300px; /* Larger image for "big dimension" */
+    object-fit: cover;
+    border-radius: 50%;
+    /* Enhanced border and multiple box-shadows for the 'frame like that' effect */
+    border: 8px solid rgba(255, 255, 255, 0.1); /* Lighter, subtle outer border */
+    box-shadow:
+        0 0 0 5px var(--primary), /* Inner primary border */
+        0 0 15px 10px rgba(99, 102, 241, 0.7), /* Strong primary glow */
+        0 0 30px 20px rgba(192, 132, 252, 0.3); /* Softer secondary glow */
+    transition: all 0.4s ease-in-out; /* Smooth transition for hover effects */
+}
+
+.innovator-card img:hover {
+    border-color: var(--secondary); /* Border color changes on hover */
+    box-shadow:
+        0 0 0 5px var(--secondary), /* Inner secondary border on hover */
+        0 0 25px 15px rgba(192, 132, 252, 0.9), /* Intense secondary glow on hover */
+        0 0 50px 30px rgba(99, 102, 241, 0.5); /* Primary glow for depth on hover */
+}
+
+
+.innovator-content {
+    text-align: left; /* Align text to the left */
+}
+
+.innovator-content h3 {
+    font-size: 2.5rem; /* Larger name */
+    margin-bottom: 8px;
+    color: var(--text);
+}
+
+.innovator-content p.role {
+    font-size: 1.25rem; /* Larger role text */
+    color: var(--primary);
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.innovator-content p.description {
+    font-size: 1.1rem; /* Larger description text */
+    line-height: 1.8;
+    color: #cbd5e1; /* Lighter grey for description */
+}
+
+@media (max-width: 768px) {
+    .innovator-card {
+        flex-direction: column; /* Stack vertically on small screens */
+        text-align: center; /* Center text on small screens */
+    }
+    .innovator-content {
+        text-align: center; /* Center text on small screens */
+    }
+}
+/* New styles for Parallax Background in Team Section */
+.parallax-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://via.placeholder.com/1920x1080/0d1117/2a303a?text=Innovator+Background'); /* Replace with your desired background image */
+    background-size: cover;
+    background-attachment: fixed; /* This is key for the parallax effect */
+    background-position: center;
+    z-index: 0; /* Ensure it's behind the content */
+    opacity: 0.3; /* Make it subtle */
+    filter: blur(2px); /* Optional: add a blur for depth */
+}
+
+/* Adjust the z-index of the content to be above the parallax background */
+#team .container {
+    position: relative;
+    z-index: 10;
+}
+
+@media (max-width: 768px) {
+    .parallax-background {
+        background-attachment: scroll; /* Disable fixed parallax on small screens */
+        filter: none; /* Remove blur on mobile if desired */
+    }
+}
     </style>
 </head>
 <body class="bg-[var(--bg)] text-[var(--text)]">
@@ -232,7 +339,7 @@
     <div id="preloader">
         <div class="flex items-center p-4 sm:p-6 md:p-8 lg:p-10">
             <div class="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight pr-2 sm:pr-3 md:pr-4 flex-shrink-0" style="font-family: 'Inter', sans-serif;">
-                CI Minds 
+                CI Minds
             </div>
             <div class="h-12 sm:h-16 md:h-20 lg:h-24 w-1 bg-white mx-1 sm:mx-2 md:mx-3 flex-shrink-0"></div>
             <div class="overflow-hidden flex-grow">
@@ -251,7 +358,7 @@
 
     <div id="custom-cursor" class="custom-cursor"></div>
 
-    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-black/80">
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-black/76">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <a href="#home" class="text-2xl font-extrabold text-[var(--primary)]">CI MINDS</a>
@@ -288,18 +395,17 @@
                 <p class="mt-6 max-w-2xl mx-auto text-lg md:text-xl text-slate-300">
                     We are an innovation studio that blends artificial intelligence with human creativity to build unforgettable digital products and brand experiences for the future.
                 </p>
-                <div class="mt-10 flex justify-center gap-4">
-                    <a href="#work" class="px-8 py-4 bg-[var(--primary)] text-white font-bold rounded-full text-lg hover:scale-105 transform transition-transform duration-300 shadow-lg shadow-indigo-500/20">View Our Work</a>
-                    <a href="#contact" class="px-8 py-4 bg-[var(--card)] text-[var(--text)] font-bold rounded-full text-lg hover:scale-105 transform transition-transform duration-300 border border-[var(--border)]">Get in Touch</a>
-                    <a href="worktest.html" class="px-8 py-4 bg-[var(--card)] text-[var(--text)] font-bold rounded-full text-lg hover:scale-105 transform transition-transform duration-300 border border-[var(--border)]">About Our Services</a>
+                <div class="mt-10 flex flex-col items-center justify-center gap-4 md:flex-row">
+                    <a href="#work" class="px-8 py-4 bg-[var(--primary)] text-white font-bold rounded-full text-lg hover:scale-105 transform transition-transform duration-300 shadow-lg shadow-indigo-500/20 w-full md:w-auto text-center">View Our Work</a>
+                    <a href="worktest.html" class="px-8 py-4 bg-[var(--card)] text-[var(--text)] font-bold rounded-full text-lg hover:scale-105 transform transition-transform duration-300 border border-[var(--border)] w-full md:w-auto text-center">About Our Services</a>
+                    <a href="#contact" class="px-8 py-4 bg-[var(--card)] text-[var(--text)] font-bold rounded-full text-lg hover:scale-105 transform transition-transform duration-300 border border-[var(--border)] w-full md:w-auto text-center">Get in Touch</a>
                 </div>
             </div>
         </section>
 
-        
 <section class="min-h-screen bg-gradient-to-br from-black via-zinc-900 to-neutral-950 flex items-center justify-center px-6 py-20">
   <div class="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-12 items-center backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl shadow-2xl p-10 md:p-16 animate-fade-in-up transition-all duration-1000 ease-out">
-    
+
     <div class="flex flex-col items-start md:items-start justify-center w-full">
       <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold bg-gradient-to-r from-blue-500 to-purple-400 bg-clip-text text-transparent tracking-tight" style="font-family: 'Inter', sans-serif;">
         CI MINDS
@@ -320,8 +426,6 @@
     </div>
   </div>
 </section>
-
-
 
 
 
@@ -369,14 +473,13 @@
                             </svg>
                         </div>
                         <h3 class="mt-4 text-2xl font-bold">Data Visualization</h3>
-                        <p class="mt-2 text-slate-300">We transform complex datasets into intuitive, beautiful, and interactive visual stories. Our data visualizations are designed to provide clear insights, making information accessible and engaging for your audience, fostering deeper understanding and informed decision-making.</p>
+                        <p class="mt-2 text-slate-300">We transform complex datasets into intuitive, beautiful, and interactive visual stories. Our data visualizations are designed to provide clear insights, making information accessible and engaging for your audience, fostering deeper understanding and informed decision-decision-making.</p>
                     </div>
                 </div>
             </div>
         </section>
 
 
-        
 
         <section id="work" class="py-20 md:py-32 observed-section">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 section-fade-in">
@@ -392,30 +495,20 @@
             </div>
         </section>
 
-        <section id="team" class="py-20 md:py-32 bg-[#1a202c] observed-section">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 section-fade-in">
+        <section id="team" class="py-20 md:py-32 bg-[#1a202c] observed-section relative overflow-hidden">
+            <div class="parallax-background"></div> <div class="container mx-auto px-4 sm:px-6 lg:px-8 section-fade-in relative z-10">
                 <div class="text-center">
-                    <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight">Meet the Innovators</h2>
-                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-300">A passionate team of designers, engineers, and strategists at the forefront of design.</p>
+                    <h2 class="text-5xl md:text-7xl  tracking-tight  text-white" style="font-family: 'Cabin', sans-serif;">Meet the Innovator</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-300">The visionary leading our journey at the intersection of design and intelligence.</p>
                 </div>
-                <div class="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                    <div class="text-center p-8 bg-[var(--card)] rounded-2xl shadow-sm border border-[var(--border)] team-member-card">
-                        <img src="https://via.placeholder.com/128x128/6366f1/ffffff?text=pb" alt="pb" class="w-32 h-32 rounded-full mx-auto ring-4 ring-offset-4 ring-offset-[var(--card)] ring-[var(--primary)]">
-                        <h3 class="mt-6 text-2xl font-bold">pb</h3>
-                        <p class="mt-1 text-[var(--primary)] font-semibold">Lead UI/UX Architect</p>
-                        <p class="mt-2 text-slate-300">Empowering developers to refine, redesign, and innovate through intelligent code generation and transformation.</p>
-                    </div>
-                    <div class="text-center p-8 bg-[var(--card)] rounded-2xl shadow-sm border border-[var(--border)] team-member-card">
-                        <img src="https://via.placeholder.co/128x128/a855f7/ffffff?text=SHYAMA" alt="SHYAMA SHARMA" class="w-32 h-32 rounded-full mx-auto ring-4 ring-offset-4 ring-offset-[var(--card)] ring-[var(--primary)]">
-                        <h3 class="mt-6 text-2xl font-bold">SHYAMA SHARMA</h3>
-                        <p class="mt-1 text-[var(--primary)] font-semibold">Creative Technologist</p>
-                        <p class="mt-2 text-slate-300">Expert in generative art, kinetic typography, and building AI-assisted design tools.</p>
-                    </div>
-                    <div class="text-center p-8 bg-[var(--card)] rounded-2xl shadow-sm border border-[var(--border)] team-member-card">
-                        <img src="https://via.placeholder.co/128x128/10b981/ffffff?text=PRITHVI" alt="PRITHVI BHUSHAN" class="w-32 h-32 rounded-full mx-auto ring-4 ring-offset-4 ring-offset-[var(--card)] ring-[var(--primary)]">
-                        <h3 class="mt-6 text-2xl font-bold">PRITHVI BHUSHAN</h3>
-                        <p class="mt-1 text-[var(--primary)] font-semibold">AI Systems Engineer</p>
-                        <p class="mt-2 text-slate-300">Develops the core generative models and adaptive algorithms that power our creative output.</p>
+                <div class="mt-16 flex justify-center">
+                    <div class="innovator-card">
+                        <img src="C:\Users\drcbk\Downloads\WhatsApp Image 2025-07-26 at 9.44.12 PM.jpeg" alt="Prithvi Bhushan" class="team-member-image">
+                        <div class="innovator-content">
+                            <h3 class="text-2xl font-bold" style="font-family: 'Orbitron', sans-serif;">Prithvi Bhushan</h3>
+                            <p class="role">Chief Design Architect & AI Visionary</p>
+                            <p class="description">Crafting elegant, dynamic, and intuitive digital experiences that feel like absolute magic, blending out-of-the-box design with cutting-edge AI innovation.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -474,7 +567,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const preloader = document.getElementById('preloader');
             const nextgenText = document.getElementById('nextgen-text');
-            
+
             // Corrected Preloader Logic
             window.addEventListener('load', () => {
                 // Trigger the slide-in animation
